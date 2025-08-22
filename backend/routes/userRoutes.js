@@ -201,6 +201,36 @@ router.delete("/delete/:userId", async (req, res) => {
   }
 });
 
+// 토큰 유효성 검사를 위한 라우터
+router.post("/verify-token", (req, res) => {
+  // 요청 쿠키에서 토큰 추출
+  const token = req.cookies.token;
+
+  // 토큰이 존재하지 않을 경우 오류 응답
+  if (!token) {
+    return res.status(400).json({
+      isValid: false,
+      message: "토큰이 없습니다.",
+    });
+  }
+
+  try {
+    // 토큰 검증 (서버의 JWT_SECRET으로 서명 확인)
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // 검증 성공: 사용자 정보 포함 응답
+    return res.status(200).json({
+      isValid: true,
+      user: decoded, // 디코딩된 payload 정보 (예: userId 등)
+    });
+  } catch (error) {
+    // 검증 실패: 유효하지 않은 토큰
+    return res.status(401).json({
+      isValid: false,
+      message: "유효하지 않은 토큰입니다.",
+    });
+  }
+});
 
 
 // 이 라우터를 외부에서 사용할 수 있도록 내보내기
