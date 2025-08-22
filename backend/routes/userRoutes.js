@@ -48,9 +48,9 @@ router.post("/signup", async (req, res) => {
 router.get("/users", async (req, res) => {
   try {
 
-    const users =await User.find().sort({createdAt:-1})
+    const users = await User.find().select('-password').sort({ createdAt: -1 });
     // 성공 응답 반환
-    res.status(201).json({ message: "전체 유져 가져오기" ,users});
+    res.status(200).json({ message: "전체 유져 가져오기", users });
   } catch (error) {
     // 서버 오류 발생 시 500 에러 응답
     res.status(500).json({ message: "서버 오류가 발생했습니다." });
@@ -84,14 +84,15 @@ router.post("/login", async (req, res) => {
         await user.save();
         return res
           .status(401)
-          .json({ message: "비밀번호 5회 이상 오류, 계정이 잠겼습니다."});
+          .json({ message: "비밀번호 5회 이상 오류, 계정이 잠겼습니다." });
       }
 
       // 5회 미만 → 상태 저장 후 즉시 오류 리턴
       await user.save();
-      return res.status(401).json({ 
-        message: "비밀번호가 틀렸습니다." ,
-        failAttempts: user.failedLoginAttempts+"번 틀림" });
+      return res.status(401).json({
+        message: "비밀번호가 틀렸습니다.",
+        failAttempts: user.failedLoginAttempts + "번 틀림"
+      });
     }
 
     // 4) 로그인 성공 → 실패 카운터 초기화
@@ -117,13 +118,13 @@ router.post("/login", async (req, res) => {
     );
 
     // 7) httpOnly 쿠키에 JWT 저장 (배포 환경에서는 secure: true 권장)
-    res.cookie("token", token, {
+    res.cookie('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 24 * 60 * 60 * 1000, // 24h
+      sameSite: 'lax',   // dev
+      secure: false,     // dev
+      path: '/',         // dev/clearCookie 동일
+      maxAge: 24 * 60 * 60 * 1000,
     });
-
     // 8) 클라이언트에 보낼 데이터(비밀번호 제외)
     const userWithoutPassword = user.toObject();
     delete userWithoutPassword.password;
@@ -165,10 +166,11 @@ router.post("/logout", async (req, res) => {
     }
 
     // 6. 응답 전에 쿠키에서 토큰 제거
-    res.clearCookie("token", {
+    res.clearCookie('token', {
       httpOnly: true,
-      secure: false,      // 프로덕션 환경에서는 true로 변경
-      sameSite: "strict"
+      sameSite: 'lax',
+      secure: false,
+      path: '/',
     });
 
     // 7. 클라이언트에 로그아웃 완료 메시지 반환
@@ -198,6 +200,9 @@ router.delete("/delete/:userId", async (req, res) => {
     res.status(500).json({ message: "서버 오류 발생", error });
   }
 });
+
+
+
 // 이 라우터를 외부에서 사용할 수 있도록 내보내기
 module.exports = router;
 
