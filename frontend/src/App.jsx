@@ -8,6 +8,7 @@ import AdminPost from './pages/AdminPost'
 import AuthRedirectRoute from './routes/AuthRedirectRoute';
 import RequireAuth from './routes/RequireAuth';
 import "./styles/main.scss";
+import "./styles/_themes.scss"
 
 
 function App() {

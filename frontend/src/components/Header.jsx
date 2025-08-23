@@ -1,8 +1,11 @@
 import React from 'react'
-
+import Nav from './Nav'
 const Header = () => {
   return (
-    <div>Header</div>
+    <header>
+      <h1>LOGO</h1>
+      <Nav />
+    </header>
   )
 }
 

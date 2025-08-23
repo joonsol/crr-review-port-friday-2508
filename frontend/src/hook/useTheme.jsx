@@ -1,9 +1,17 @@
-import React from 'react'
+// src/hooks/useTheme.js
+import { useState, useEffect } from "react";
 
 const useTheme = () => {
-  return (
-    <div>useTheme</div>
-  )
-}
+  const [theme, setTheme] = useState("light");
 
-export default useTheme
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () =>
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+
+  return { theme, toggleTheme };
+};
+
+export default useTheme;
