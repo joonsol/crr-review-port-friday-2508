@@ -1,7 +1,9 @@
 import React from 'react'
+import { ThemeProvider, useTheme } from '../contexts/ThemeContext'
 import useSmoothScroll from '../hook/useSmoothScroll'
 const Nav = () => {
   const navLink = ['Hero', 'Contact', 'Work', 'Aboutme']
+  const { theme, toggleTheme } = useTheme();
 
   const scrollTo = useSmoothScroll()
   return (

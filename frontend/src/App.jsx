@@ -9,12 +9,13 @@ import AuthRedirectRoute from './routes/AuthRedirectRoute';
 import RequireAuth from './routes/RequireAuth';
 import "./styles/main.scss";
 import "./styles/_themes.scss"
-
+import "./styles/common.scss"
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 function App() {
 
   return (
-    <div>
+    <ThemeProvider>
 
     <Routes>
       <Route path='/' element={<Home/>}/>
@@ -24,7 +25,7 @@ function App() {
       <Route path="/admin/posts" element={<RequireAuth Component={AdminPost} />} />
       <Route path='*' element={<Notfound/>}/>
     </Routes>
-    </div>
+    </ThemeProvider>
   )
 }
 

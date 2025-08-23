@@ -1,0 +1,19 @@
+.button {
+  background: var(--primary);
+  color: var(--bg);
+  border: 0;
+  padding: .6rem 1rem;
+  border-radius: .5rem;
+  cursor: pointer;
+}
+
+section {
+  height: 100vh;
+  position: relative;
+}
+.inner {
+  position: relative;
+  max-width: 160rem;
+  margin: auto;
+  height: 100%;
+}
