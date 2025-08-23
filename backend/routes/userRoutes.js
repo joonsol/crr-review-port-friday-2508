@@ -110,11 +110,11 @@ router.post("/login", async (req, res) => {
 
     await user.save(); // 변경 사항 저장
 
-    // 6) JWT 발급 (24시간 유효)
+    // 6) JWT 발급 (24시간 유효->3시간)
     const token = jwt.sign(
       { userId: user._id, username: user.username, role: "admin" },
       process.env.JWT_SECRET,
-      { expiresIn: "24h" }
+      { expiresIn: "3h" }
     );
 
     // 7) httpOnly 쿠키에 JWT 저장 (배포 환경에서는 secure: true 권장)
@@ -123,7 +123,7 @@ router.post("/login", async (req, res) => {
       sameSite: 'lax',   // dev
       secure: false,     // dev
       path: '/',         // dev/clearCookie 동일
-      maxAge: 24 * 60 * 60 * 1000,
+      maxAge: 3 * 60 * 60 * 1000,
     });
     // 8) 클라이언트에 보낼 데이터(비밀번호 제외)
     const userWithoutPassword = user.toObject();
