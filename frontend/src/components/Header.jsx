@@ -13,8 +13,8 @@ const Header = () => {
         <h4>LOGO</h4>
         <div className="right-wrap">
 
-          <button onClick={toggleTheme}>{theme}</button>
           <Nav />
+          <button className='Button' onClick={toggleTheme}>{theme}</button>
         </div>
       </div>
     </header>

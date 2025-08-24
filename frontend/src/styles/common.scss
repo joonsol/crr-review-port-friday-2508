@@ -1,19 +1,35 @@
-.button {
+.Button {
   background: var(--primary);
   color: var(--bg);
   border: 0;
   padding: .6rem 1rem;
   border-radius: .5rem;
   cursor: pointer;
+  text-transform: uppercase;
 }
 
 section {
   height: 100vh;
   position: relative;
 }
-.inner {
-  position: relative;
-  max-width: 160rem;
-  margin: auto;
-  height: 100%;
+
+section,
+.Header {
+
+  .inner {
+    position: relative;
+    max-width: 160rem;
+    margin: auto;
+    height: 100%;
+
+    // 작은 화면일 때 좌우 여백 주기
+    @media (max-width: 1600px) {
+      padding: 1rem 2rem;
+    }
+
+    @media (max-width: 768px) {
+      padding: 1rem 1rem;
+    }
+
+  }
 }
