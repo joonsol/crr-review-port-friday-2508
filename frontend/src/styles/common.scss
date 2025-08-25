@@ -22,6 +22,15 @@ section,
     margin: auto;
     height: 100%;
 
+    h1.tit {
+      font-size: clamp(3.2rem, 6vw, 16rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      span {
+        display: block;
+        line-height: .8;
+      }
+    }
     // 작은 화면일 때 좌우 여백 주기
     @media (max-width: 1600px) {
       padding: 1rem 2rem;
