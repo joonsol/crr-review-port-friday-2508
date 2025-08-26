@@ -24,10 +24,6 @@ const userRoutes =require("./routes/userRoutes")
 app.use("/api/auth",userRoutes)
 
 
-
-
-
-
 app.listen(PORT, () => {
     console.log("Server is running");
 })

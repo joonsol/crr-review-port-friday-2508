@@ -17,7 +17,7 @@ const isProd = process.env.NODE_ENV === 'production';
 // 프론트/백이 "완전 같은 사이트"가 아니면(서버와 프론트 도메인이 다르면) SameSite=None + Secure 필수
 // 로컬(동일 site: localhost:5173 ↔ localhost:3000)은 'lax'로도 충분
 const SAME_SITE = isProd ? 'none' : 'lax';   // 배포: none, 로컬: lax
-const SECURE   = isProd ? true   : false;    // 배포: true(HTTPS), 로컬: false
+const SECURE = isProd ? true : false;    // 배포: true(HTTPS), 로컬: false
 const COOKIE_PATH = '/';
 
 // POST /signup : 회원가입 처리 라우트
@@ -66,98 +66,70 @@ router.get("/users", async (req, res) => {
   }
 });
 
+// 로그인: 잠금 로직은 유지, 숫자 응답은 제거
 router.post("/login", async (req, res) => {
   try {
-    // 1) 요청 바디에서 아이디·비밀번호 추출
     const { username, password } = req.body;
 
-    // 2) 사용자 조회 (비밀번호 필드까지 함께 가져오기 위해 select("+password"))
     const user = await User.findOne({ username }).select("+password");
-    if (!user) 
-      return res.status(401).json({ message: "사용자 없음" });
-    if (!user.isActive) 
-      return res.status(401).json({ message: "비활성 계정" });
-    // if (user.isLoggedIn) return res.status(401).json({ message: "이미 다른 기기에서 접속 중" });
+    if (!user) return res.status(401).json({ message: "아이디 또는 비밀번호가 올바르지 않습니다." });
+    if (user.isActive === false) return res.status(423).json({ message: "계정이 잠겨 있습니다. 관리자에게 문의하세요." });
 
-
-
-    // 3) 비밀번호 검증
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      // 실패 시: 횟수 +1, 마지막 시도 시간 기록
-      user.failedLoginAttempts += 1;
+      user.failedLoginAttempts = (user.failedLoginAttempts || 0) + 1;
       user.lastLoginAttempt = new Date();
 
-
       const MAX = 5;
-      const remaining = Math.max(0, MAX - user.failedLoginAttempts);
-
-      
-      // 5회 이상 실패 → 계정 잠금 후 저장 & 오류 리턴
       if (user.failedLoginAttempts >= MAX) {
         user.isActive = false;
         await user.save();
-        return res
-          .status(401)
-          .json({
-            message: "비밀번호 5회 이상 오류, 계정이 잠겼습니다.",
-            failedLoginAttempts: user.failedLoginAttempts,   
-            remainingAttempts: 0,                            
-          });
+        // 잠김: 423 Locked 활용(선택), 아니면 401로 통일해도 됨
+        return res.status(423).json({ message: "비밀번호 5회 이상 오류로 계정이 잠겼습니다." });
       }
 
-      // 5회 미만 → 상태 저장 후 즉시 오류 리턴
       await user.save();
-      return res.status(401).json({
-        message: "비밀번호가 틀렸습니다.",
-        failAttempts: user.failedLoginAttempts + "번 틀림",
-        remainingAttempts: remaining   
-      });
+      // 일반 실패: 숫자 미노출
+      return res.status(401).json({ message: "아이디 또는 비밀번호가 올바르지 않습니다." });
     }
 
-    // 4) 로그인 성공 → 실패 카운터 초기화
+    // 성공 시 카운터 초기화
     user.failedLoginAttempts = 0;
     user.lastLoginAttempt = new Date();
     user.isLoggedIn = true;
 
-    // 5) 클라이언트 IP 주소 저장 (선택사항)
+    // (선택) IP 기록
     try {
       const { data } = await axios.get("https://api.ipify.org?format=json");
       if (data?.ip) user.ipAddress = data.ip;
-    } catch (ipErr) {
-      console.error("IP 주소 조회 실패:", ipErr.message);
-    }
+    } catch {}
 
-    await user.save(); // 변경 사항 저장
+    await user.save();
 
-    // 6) JWT 발급 (24시간 유효->3시간)
     const token = jwt.sign(
       { userId: user._id, username: user.username, role: "admin" },
       process.env.JWT_SECRET,
       { expiresIn: "3h" }
     );
 
-res.cookie(COOKIE_NAME, token, {
-  httpOnly: true,
-  sameSite: SAME_SITE,
-  secure: SECURE,
-  maxAge: 24 * 60 * 60 * 1000,
-  path: COOKIE_PATH,
-  // domain: '.your-domain.com'  // 배포에서 “정말 필요할 때만” 사용. 쓰면 clearCookie에도 똑같이!
-});
-    // 8) 클라이언트에 보낼 데이터(비밀번호 제외)
+    res.cookie(COOKIE_NAME, token, {
+      httpOnly: true,
+      sameSite: SAME_SITE,
+      secure: SECURE,
+      maxAge: 24 * 60 * 60 * 1000,
+      path: COOKIE_PATH,
+    });
+
     const userWithoutPassword = user.toObject();
     delete userWithoutPassword.password;
 
-    return res.status(200).json({
-      message: "로그인 성공", token,
-      user: userWithoutPassword
-    });
+    return res.status(200).json({ message: "로그인 성공", user: userWithoutPassword });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "서버 오류" });
   }
 });
+
 router.post("/logout", async (req, res) => {
   try {
     // 1. 쿠키에서 토큰 추출
@@ -186,14 +158,14 @@ router.post("/logout", async (req, res) => {
     }
 
     // 6. 응답 전에 쿠키에서 토큰 제거
-res.clearCookie(COOKIE_NAME, {
-  httpOnly: true,
-  sameSite: SAME_SITE,
-  secure: SECURE,
-  path: COOKIE_PATH,
-  // domain: '.your-domain.com'
-});
-return res.json({ message: '로그아웃되었습니다.' });
+    res.clearCookie(COOKIE_NAME, {
+      httpOnly: true,
+      sameSite: SAME_SITE,
+      secure: SECURE,
+      path: COOKIE_PATH,
+      // domain: '.your-domain.com'
+    });
+    return res.json({ message: '로그아웃되었습니다.' });
 
   } catch (error) {
     // 서버 내부 오류 처리
