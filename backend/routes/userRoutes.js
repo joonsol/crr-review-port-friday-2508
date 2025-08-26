@@ -11,6 +11,14 @@ const jwt = require("jsonwebtoken")
 // Mongoose 사용자 모델 불러오기
 const User = require("../models/User");
 
+const COOKIE_NAME = 'token';
+const isProd = process.env.NODE_ENV === 'production';
+
+// 프론트/백이 "완전 같은 사이트"가 아니면(서버와 프론트 도메인이 다르면) SameSite=None + Secure 필수
+// 로컬(동일 site: localhost:5173 ↔ localhost:3000)은 'lax'로도 충분
+const SAME_SITE = isProd ? 'none' : 'lax';   // 배포: none, 로컬: lax
+const SECURE   = isProd ? true   : false;    // 배포: true(HTTPS), 로컬: false
+const COOKIE_PATH = '/';
 
 // POST /signup : 회원가입 처리 라우트
 router.post("/signup", async (req, res) => {
@@ -65,8 +73,10 @@ router.post("/login", async (req, res) => {
 
     // 2) 사용자 조회 (비밀번호 필드까지 함께 가져오기 위해 select("+password"))
     const user = await User.findOne({ username }).select("+password");
-    if (!user) return res.status(401).json({ message: "사용자 없음" });
-    if (!user.isActive) return res.status(401).json({ message: "비활성 계정" });
+    if (!user) 
+      return res.status(401).json({ message: "사용자 없음" });
+    if (!user.isActive) 
+      return res.status(401).json({ message: "비활성 계정" });
     // if (user.isLoggedIn) return res.status(401).json({ message: "이미 다른 기기에서 접속 중" });
 
 
@@ -81,6 +91,8 @@ router.post("/login", async (req, res) => {
 
       const MAX = 5;
       const remaining = Math.max(0, MAX - user.failedLoginAttempts);
+
+      
       // 5회 이상 실패 → 계정 잠금 후 저장 & 오류 리턴
       if (user.failedLoginAttempts >= MAX) {
         user.isActive = false;
@@ -125,14 +137,14 @@ router.post("/login", async (req, res) => {
       { expiresIn: "3h" }
     );
 
-    // 7) httpOnly 쿠키에 JWT 저장 (배포 환경에서는 secure: true 권장)
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: "strict",
-      maxAge: 24 * 60 * 60 * 1000,
-      path: "/",
-    });
+res.cookie(COOKIE_NAME, token, {
+  httpOnly: true,
+  sameSite: SAME_SITE,
+  secure: SECURE,
+  maxAge: 24 * 60 * 60 * 1000,
+  path: COOKIE_PATH,
+  // domain: '.your-domain.com'  // 배포에서 “정말 필요할 때만” 사용. 쓰면 clearCookie에도 똑같이!
+});
     // 8) 클라이언트에 보낼 데이터(비밀번호 제외)
     const userWithoutPassword = user.toObject();
     delete userWithoutPassword.password;
@@ -174,16 +186,14 @@ router.post("/logout", async (req, res) => {
     }
 
     // 6. 응답 전에 쿠키에서 토큰 제거
-    res.clearCookie('token', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: "strict",
-      path: "/",
-
-    });
-
-    // 7. 클라이언트에 로그아웃 완료 메시지 반환
-    res.json({ message: "로그아웃되었습니다." });
+res.clearCookie(COOKIE_NAME, {
+  httpOnly: true,
+  sameSite: SAME_SITE,
+  secure: SECURE,
+  path: COOKIE_PATH,
+  // domain: '.your-domain.com'
+});
+return res.json({ message: '로그아웃되었습니다.' });
 
   } catch (error) {
     // 서버 내부 오류 처리
