@@ -20,7 +20,7 @@ const AdminLogin = () => {
   const [error, setError] = useState(null); // { message, remainingAttempts } 형태로 통일
 
 
-  const hadleChange = (e) => {
+  const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -65,7 +65,7 @@ const AdminLogin = () => {
               required
               placeholder="관리자 아이디"
               value={formData.username}
-              onChange={hadleChange}
+              onChange={handleChange}
             />
           </div>
           <div className="form-field">
@@ -77,16 +77,21 @@ const AdminLogin = () => {
               required
               placeholder="관리자 비밀번호"
               value={formData.password}
-              onChange={hadleChange}
+              onChange={handleChange}
             />
           </div>
         </div>
         {error && (
-          <div className='error-box'>
-            {typeof error === "string" ? error : error.message}
-            {error.remaingAttempts != undefined && (
-              <div className='retry-count'>
-                남은 시도 횟수:{error.remaingAttempts}회
+          <div className="error-box">
+            {typeof error === 'string' ? error : error.message}
+            {error.remainingAttempts !== undefined && (
+              <div className="retry-count">
+                남은 시도 횟수: {error.remainingAttempts}회
+                {error.failedLoginAttempts !== undefined && (
+                  <span >
+                    (현재 {error.failedLoginAttempts}회 틀림)
+                  </span>
+                )}
               </div>
             )}
           </div>

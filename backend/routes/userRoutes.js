@@ -78,20 +78,28 @@ router.post("/login", async (req, res) => {
       user.failedLoginAttempts += 1;
       user.lastLoginAttempt = new Date();
 
+
+      const MAX = 5;
+      const remaining = Math.max(0, MAX - user.failedLoginAttempts);
       // 5회 이상 실패 → 계정 잠금 후 저장 & 오류 리턴
-      if (user.failedLoginAttempts >= 5) {
+      if (user.failedLoginAttempts >= MAX) {
         user.isActive = false;
         await user.save();
         return res
           .status(401)
-          .json({ message: "비밀번호 5회 이상 오류, 계정이 잠겼습니다." });
+          .json({
+            message: "비밀번호 5회 이상 오류, 계정이 잠겼습니다.",
+            failedLoginAttempts: user.failedLoginAttempts,   
+            remainingAttempts: 0,                            
+          });
       }
 
       // 5회 미만 → 상태 저장 후 즉시 오류 리턴
       await user.save();
       return res.status(401).json({
         message: "비밀번호가 틀렸습니다.",
-        failAttempts: user.failedLoginAttempts + "번 틀림"
+        failAttempts: user.failedLoginAttempts + "번 틀림",
+        remainingAttempts: remaining   
       });
     }
 
