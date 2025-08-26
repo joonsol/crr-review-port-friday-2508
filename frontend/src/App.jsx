@@ -20,7 +20,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         {/* 로그인 페이지: 이미 인증이면 /admin/posts로 우회 */}
-        <Route path="/admin" element={<AuthRedirectRoute Component={AdminLogin} />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
         {/* 보호 페이지: 비인증이면 /admin/login으로 */}
         <Route path="/admin/posts" element={<RequireAuth Component={AdminPost} />} />
         <Route path='*' element={<Notfound />} />
