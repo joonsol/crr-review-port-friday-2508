@@ -120,10 +120,10 @@ router.post("/login", async (req, res) => {
     // 7) httpOnly 쿠키에 JWT 저장 (배포 환경에서는 secure: true 권장)
     res.cookie('token', token, {
       httpOnly: true,
-      sameSite: 'lax',   // dev
-      secure: false,     // dev
-      path: '/',         // dev/clearCookie 동일
-      maxAge: 3 * 60 * 60 * 1000,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: "strict",
+      maxAge: 24 * 60 * 60 * 1000,
+      path: "/",
     });
     // 8) 클라이언트에 보낼 데이터(비밀번호 제외)
     const userWithoutPassword = user.toObject();
@@ -168,9 +168,10 @@ router.post("/logout", async (req, res) => {
     // 6. 응답 전에 쿠키에서 토큰 제거
     res.clearCookie('token', {
       httpOnly: true,
-      sameSite: 'lax',
-      secure: false,
-      path: '/',
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: "strict",
+      path: "/",
+
     });
 
     // 7. 클라이언트에 로그아웃 완료 메시지 반환
