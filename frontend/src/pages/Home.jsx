@@ -1,4 +1,4 @@
-import React,{useContext} from 'react'
+import React, { useContext } from 'react'
 import Aboutme from '../components/Aboutme'
 import Contact from '../components/Contact'
 import Footer from '../components/Footer'
@@ -13,12 +13,13 @@ const Home = () => {
       <section id='Hero'>
         <Hero />
       </section>
-      <section id='Work'>
-        <Work />
-      </section>
       <section id='Aboutme'>
         <Aboutme />
       </section>
+      <section id='Work'>
+        <Work />
+      </section>
+
       <section id='Contact'>
         <Contact />
       </section>
