@@ -59,7 +59,7 @@ section,
       justify-content: center;
       width: 1em;
       height: 1em;
-      animation: rotate 3s linear infinite;
+      animation: rotate 3s ease-in-out infinite alternate;
       transform-origin: 50% 50%;
 
       i.star {
@@ -76,6 +76,15 @@ section,
 
       to {
         transform: rotate(360deg);
+      }
+    }
+    @keyframes up {
+      from {
+        transform: translateY(0);
+      }
+      
+      to {
+        transform: translateY(2rem);
       }
     }
 

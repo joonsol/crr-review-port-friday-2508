@@ -2,7 +2,17 @@
   p.txt {
     position: absolute;
     right: 3rem;
-    bottom: 3rem;
+    bottom: 14rem;
     text-align: right;
+  }
+  .arrow {
+    position: absolute;
+    bottom: 5rem;
+    font-size: 4rem;
+    color: var(--text);
+    left: 50%;
+    margin-left: -1rem;
+      animation: up 1s linear infinite alternate;
+
   }
 }

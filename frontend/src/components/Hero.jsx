@@ -27,6 +27,9 @@ const Hero = () => {
         풀스택 전문가로써 성장과 도전을 지향합니다.
         <br />
       </p>
+      <div className="arrow">
+        ⬇    
+      </div>
     </div>
   )
 }
