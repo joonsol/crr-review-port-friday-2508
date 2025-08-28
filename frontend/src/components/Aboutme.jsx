@@ -17,15 +17,17 @@ const Aboutme = () => {
       <div className="t-wrap">
 
         <h2 className='sub-tit'>profile</h2>
-        <p className="txt">들어가는 최종 요소나 사용된다. 레이아웃 들어가는 로렘 부르며, 들어가는 최종 전에 프로젝트 사용할 사용된다. 부르며, 채워지기 프로젝트 타이포그래피,  </p>
+        <p className="txt">들어가는 최종 요소나 사용된다. <br />
+          레이아웃 들어가는 로렘 부르며,
+          <br /> 들어가는 최종 전에 프로젝트 사용할 사용된다.  </p>
       </div>
       <div className="about-container">
 
         <div className="basic-info">
           <h4 className='list-tit'>list-tit</h4>
-          <ul className="about-list">
+          <ul className="lst">
             <li>
-              <strong>이름:</strong> {profile.name}
+              <strong>이름</strong> :{profile.name}
 
             </li>
             <li>
@@ -45,7 +47,7 @@ const Aboutme = () => {
 
         <div className="skills">
           <h4 className='list-tit'>Skills</h4>
-          <ul className="about-list">
+          <ul className="lst">
             {skills.map((skill, idx) => (
               <li key={idx}>{skill}</li>
             ))}
@@ -56,7 +58,7 @@ const Aboutme = () => {
           <h4 className='list-tit'>
             💼 Experiences
           </h4>
-          <ul className='exper-list'>
+          <ul className='lst'>
             {exper.map((exp, idx) => (
               <li key={idx}>{exp}</li>
             ))}
@@ -67,7 +69,7 @@ const Aboutme = () => {
           <h4 className='list-tit'>
             🌱 Interests
           </h4>
-          <ul className='inter-list'>
+          <ul className='lst'>
             {interests.map((interest, idx) => (
               <li key={idx}>{interest}</li>
             ))}
