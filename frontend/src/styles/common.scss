@@ -1,5 +1,5 @@
 .Button {
-  background: var(--primary);
+  background: var(--text);
   color: var(--bg);
   border: 0;
   padding: .6rem 1rem;
@@ -11,6 +11,7 @@
 section {
   height: 100vh;
   position: relative;
+  overflow: hidden;
 }
 
 section,
