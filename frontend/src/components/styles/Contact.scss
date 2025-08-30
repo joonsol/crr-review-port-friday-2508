@@ -1,0 +1,120 @@
+.contact-inner {
+  flex-direction: column;
+> h1.tit{
+  align-self: flex-start;
+  transform: translateX(-20rem);
+}
+.contact-wrapper  {
+  padding:16rem 0 0;
+  display: flex;
+  width: 100%;
+  gap: 5rem;
+  .contact-form{
+    width: 50%;
+    .form-rows{
+      >li{
+
+        display: flex;
+        line-height: 2;
+        padding: .5rem 0;
+        label {
+          width: 15.8rem;
+          font-size: 1.6rem;
+          font-weight: 300;
+          color: var(--gray600);
+        }
+        .field{
+          flex: 1;
+          input,
+          textarea{
+            font-size: 1.4rem;
+            width: 100%;
+            border-radius: .3rem;
+            padding: .5rem 2rem;
+            background-color: transparent;
+            border: .1rem solid var(--gray200);
+          } 
+        }
+        &.actions{
+          justify-self:  flex-end;
+          .Button {
+            display: inline-flex;
+            width: 14.5rem;
+            height: 4rem;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10rem;
+            font-size: 1.6rem;
+            font-weight: 800;
+          }
+        }
+      }
+    }
+  }
+.contact-list {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  flex-direction: column;
+  li {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    // border-radius: .8rem;
+    .label {
+      display: inline-block;
+      min-width: 8rem;
+      font-weight: 700;
+      color: var(--neutral-100);
+      flex: 1;
+      text-align: center;
+      color: var(--primary);
+      font-size: 1.6rem;
+      font-weight: 400;
+    }
+    .content {
+      flex: 2;
+
+    .value {
+      display: block;
+      color: var(--neutral-300);
+      font-size: 1.8rem;
+    }
+
+    .hint {
+      display: block;
+      margin-top: .4rem;
+      color: var(--neutral-600);
+      font-size: .9rem;
+    }
+
+
+    }
+        .chips {
+      display: flex;
+      gap: 1rem;
+      
+          .chip {
+            padding: .4rem 2rem;
+            border-radius: 999rem;
+            background: var(--neutral-900);
+            color: var(--neutral-100);
+            display: block;
+            font-size: 1.4rem;
+          }
+    }
+
+  }
+
+  li+li {
+    border-top: 1px dashed var(--neutral-900);
+
+  }
+
+
+  li:hover {
+    border-color: var(--primary);
+  }
+}
+}
+}

@@ -12,6 +12,9 @@ section {
   height: 100vh;
   position: relative;
   overflow: hidden;
+  &#Work {
+    height: auto;
+  }
 }
 
 section,
@@ -49,11 +52,42 @@ section,
 
     }
 
+    h3.sub-tit-2 {
+      font-family: " Noto Sans KR";
+      text-transform: uppercase;
+      line-height: 1;
+      letter-spacing: 1.9rem;
+      font-size: clamp(4rem, 6vw, 9.6rem);
+    }
+    
+    h4.lst-tit {
+      font-size: clamp(2rem, 4vw, 5.4rem);
+      font-weight: 400;
+      letter-spacing: -.48rem;
+    }
+    
+    p.lst-dsc {
+      font-size: 1.6rem;
+      font-weight: 200;
+      margin: 1rem 0;
+      color: var(--gray700);
+    }
+
     p.txt {
       font-size: clamp(2rem, 2vw, 2.8rem);
       color: var(--gray600);
     }
-
+    .tags {
+      display: flex;
+      gap: 1rem;
+      >span {
+        display: block;
+        padding: .5rem 1.6rem ;
+        color: var(--gray100);
+        border-radius: 10rem;
+        background-color: var(--gray900);
+      }
+    }
     .star-spin {
       display: inline-flex;
       align-items: center;
@@ -79,11 +113,12 @@ section,
         transform: rotate(360deg);
       }
     }
+
     @keyframes up {
       from {
         transform: translateY(0);
       }
-      
+
       to {
         transform: translateY(2rem);
       }
