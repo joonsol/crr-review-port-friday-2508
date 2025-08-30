@@ -1,7 +1,48 @@
-import React from 'react'
+import React ,{useState }from 'react'
 import contact from '../utils/contact'
+import axios from "axios"
 import "./styles/Contact.scss"
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+    status: "in progress",
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    try {
+      const response =await axios.post(
+              "http://localhost:3000/api/contact",
+              formData
+      )
+
+      if(response.status===201){
+        alert("문의가 성공적 접수!11")
+        setFormData({
+          name:"",
+          email:"",
+          phone:"",
+          message:"",
+          status:"in progress"
+        })
+      }
+    } catch (error) {
+        console.log("에러 발생: ", error);
+      alert("문의 접수 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+    }
+  };
+
   return (
     <div className='inner contact-inner'>
             <h1 className="tit">contact me
@@ -11,7 +52,7 @@ const Contact = () => {
       </h1>
       <div className="contact-wrapper">
 
-        <form className="contact-form" >
+        <form className="contact-form" onSubmit={handleSubmit}>
           <ul className="form-rows">
             <li className="row">
               <label htmlFor="name" className="label">
@@ -23,6 +64,8 @@ const Contact = () => {
                   name="name"
                   type="text"
                   placeholder="홍길동"
+                        value={formData.name}
+                  onChange={handleChange}
                   required
                 />
               </div>
@@ -35,7 +78,9 @@ const Contact = () => {
               <div className="field">
                 <input
                   id="email"
+                   value={formData.email}
                   name="email"
+                  onChange={handleChange}
                   type="email"
                   placeholder="example@email.com"
                   required
@@ -51,6 +96,8 @@ const Contact = () => {
                 <input
                   id="phone"
                   name="phone"
+                        value={formData.phone}
+                  onChange={handleChange}
                   type="tel"
                   placeholder="010-1234-5678"
                 />
@@ -64,7 +111,9 @@ const Contact = () => {
               <div className="field">
                 <textarea
                   id="message"
+                  onChange={handleChange}
                   name="message"
+                  value={formData.message}
                   rows={7}
                   placeholder="문의하실 내용을 자세히 적어주세요."
                   required
