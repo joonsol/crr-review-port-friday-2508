@@ -1,7 +1,7 @@
-import React ,{useState }from 'react'
+import React, { useState } from 'react'
 import contact from '../utils/contact'
-import axios from "axios"
 import "./styles/Contact.scss"
+import { api } from '../lib/api';
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -22,30 +22,28 @@ const Contact = () => {
     e.preventDefault()
 
     try {
-      const response =await axios.post(
-              "http://localhost:3000/api/contact",
-              formData
+      const response = await api.post("/api/contact", formData
       )
 
-      if(response.status===201){
+      if (response.status === 201) {
         alert("문의가 성공적 접수!11")
         setFormData({
-          name:"",
-          email:"",
-          phone:"",
-          message:"",
-          status:"in progress"
+          name: "",
+          email: "",
+          phone: "",
+          message: "",
+          status: "in progress"
         })
       }
     } catch (error) {
-        console.log("에러 발생: ", error);
+      console.log("에러 발생: ", error);
       alert("문의 접수 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
     }
   };
 
   return (
     <div className='inner contact-inner'>
-            <h1 className="tit">contact me
+      <h1 className="tit">contact me
         <span className="star-spin">
           <i className="star">✱</i>
         </span>
@@ -64,7 +62,7 @@ const Contact = () => {
                   name="name"
                   type="text"
                   placeholder="홍길동"
-                        value={formData.name}
+                  value={formData.name}
                   onChange={handleChange}
                   required
                 />
@@ -78,7 +76,7 @@ const Contact = () => {
               <div className="field">
                 <input
                   id="email"
-                   value={formData.email}
+                  value={formData.email}
                   name="email"
                   onChange={handleChange}
                   type="email"
@@ -96,7 +94,7 @@ const Contact = () => {
                 <input
                   id="phone"
                   name="phone"
-                        value={formData.phone}
+                  value={formData.phone}
                   onChange={handleChange}
                   type="tel"
                   placeholder="010-1234-5678"
