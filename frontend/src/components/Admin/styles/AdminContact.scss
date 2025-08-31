@@ -7,6 +7,7 @@
   justify-content: flex-start;
   text-align: left;
   max-width: 120rem;
+  margin: auto;
   
   h2 {
     text-align: left;
@@ -44,15 +45,15 @@
     }
 
     h3 {
-      margin: 0 0 0.5rem;
-      font-size: 1.2rem;
-      font-weight: 500;
+      margin: 0 0 1rem;
+      font-size: 1.6rem;
+      font-weight: 600;
       color: #222;
     }
 
     p {
       margin: 0.25rem 0;
-      font-size: 0.95rem;
+      font-size: 1.6rem;
       line-height: 1.4;
 
       strong {

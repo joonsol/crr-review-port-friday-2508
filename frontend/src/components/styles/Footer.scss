@@ -1,0 +1,10 @@
+.Footer {
+  background-color: var(--gray900);
+  .inner {
+    padding:4rem 0;
+    display: flex;
+    justify-content: space-between;
+    color: var(--gray100);
+    font-size: 1.6rem;
+  }
+}

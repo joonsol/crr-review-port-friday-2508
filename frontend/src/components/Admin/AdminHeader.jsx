@@ -19,7 +19,7 @@ const AdminHeader = () => {
   };
   return (
 
-      <div className='inner'>
+      <div className='inner admin-header-inner'>
         <form onSubmit={handleLogout}>
           <button type="submit">로그아웃</button>
         </form>

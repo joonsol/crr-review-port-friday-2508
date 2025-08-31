@@ -1,6 +1,6 @@
-.contact-inner {
+.inner.contact-inner {
   flex-direction: column;
-
+  justify-content: center;
   >h1.tit {
     align-self: flex-start;
     transform: translateX(-20rem);
