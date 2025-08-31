@@ -30,6 +30,9 @@
       display: flex;
       align-items: center;
       gap: 3rem;
+      .Button {
+        background-color: var(--text);
+      }
 
     }
   }
