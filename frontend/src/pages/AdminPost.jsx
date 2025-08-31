@@ -9,14 +9,9 @@ const AdminPost = () => {
 
   return (
     <div className="admin-post">
-  
-      <AdminHeader/>
-
-  
-
-      <AdminContact/>
+        <AdminHeader/>
+       <AdminContact/>
  
-
     </div>
   );
 };
