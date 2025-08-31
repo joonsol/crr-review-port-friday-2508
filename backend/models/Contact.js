@@ -22,7 +22,11 @@ const contactSchema = new mongoose.Schema(
             required: true,
             trim: true,
         },
-
+        status: {
+            type: String,
+            enum: ['in progress', 'pending', 'completed'],
+            default: 'in progress',
+        },
         createdAt: {
             type: Date,
             default: Date.now,

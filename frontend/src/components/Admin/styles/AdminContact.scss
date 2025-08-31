@@ -1,0 +1,86 @@
+/* styles/AdminContact.scss */
+
+.inner.admin-contact-inner {
+  padding: 2rem;
+  background: #f9f9f9;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align:left;
+  max-width: 120rem;
+  
+  h2 {
+    text-align:left;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+    font-weight: 600;
+  }
+
+  p {
+    color: #777;
+    font-size: 1rem;
+  }
+
+  .contact-list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+    
+  }
+
+  .contact-item {
+    // flex: 1;
+    width: 31%;
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #222;
+    }
+
+    p {
+      margin: 0.25rem 0;
+      font-size: 0.95rem;
+      line-height: 1.4;
+
+      strong {
+        color: #555;
+        margin-right: 0.25rem;
+      }
+    }
+
+    /* 상태 표시 스타일 */
+    p:last-child {
+      margin-top: 0.5rem;
+      font-weight: 500;
+
+      &::before {
+        content: "● ";
+        font-size: 0.8rem;
+      }
+
+      /* 상태별 색상 */
+      &:contains("pending") {
+        color: #d97706; // 주황
+      }
+      &:contains("in progress") {
+        color: #2563eb; // 파랑
+      }
+      &:contains("completed") {
+        color: #16a34a; // 초록
+      }
+    }
+  }
+}

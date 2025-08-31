@@ -28,7 +28,7 @@ const authenticateToken = (req, res, next) => {
 router.post("/", async (req, res) => {
     try {
         // 요청 본문에서 문의 정보 추출
-        const { name, email, phone, message} = req.body;
+        const { name, email, phone, message, status } = req.body;
 
         // Contact 모델의 새 인스턴스 생성
         const contact = new Contact({
@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
             email,
             phone,
             message,
- 
+            status,
         });
 
         // DB에 저장
@@ -50,8 +50,6 @@ router.post("/", async (req, res) => {
         res.status(500).json({ message: "서버에러" });
     }
 });
-
-
 // 전체 문의 목록 조회 라우터 (GET /api/contact)
 router.get("/", async (req, res) => {
     try {
@@ -89,6 +87,48 @@ router.get("/:id", async (req, res) => {
         res.status(500).json({ message: "서버에러" });
     }
 });
+// 문의 상태 수정 라우터 (PUT /api/contact/:id)
+router.put("/:id", async (req, res) => {
+  try {
+    // 요청 본문에서 status 값을 추출 (예: "완료", "처리중" 등)
+    const { status } = req.body;
 
+    // 해당 ID를 가진 문의글의 상태를 업데이트 (new: true → 업데이트 후 데이터를 반환)
+    const contact = await Contact.findByIdAndUpdate(
+      req.params.id,   // URL에서 받은 문의 ID
+      { status },       // 변경할 필드
+      { new: true }     // 변경된 문서를 반환
+    );
+
+    // 해당 ID의 문의글이 존재하지 않는 경우
+    if (!contact) {
+      return res.status(404).json({ message: "문의를 찾을 수 없음" });
+    }
+
+    // 업데이트된 문의글 정보를 함께 응답
+    res.json({ message: "문의 상태 성공적 수정!", contact });
+
+  } catch (error) {
+    // 예외 처리: 잘못된 ID, DB 오류 등
+    console.log(error);
+    res.status(500).json({ message: "서버에러" });
+  }
+});
+router.delete("/:id", async (req, res) => {
+  try {
+    const contact = await Contact.findByIdAndDelete(
+      req.params.id
+    )
+
+    if (!contact) {
+      return res.status(404).json({ message: "문의를 찾을수 없음2" })
+    }
+    res.json({ message: "문의 상태 성공적 삭제!1" })
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: "서버에러" })
+  }
+})
 // 라우터 내보내기
 module.exports = router;
