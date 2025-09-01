@@ -78,6 +78,9 @@ section,
     p.txt {
       font-size: clamp(1.6rem, 2vw, 2.8rem);
       color: var(--gray600);
+                @media screen and (max-width:400px){
+            display: none;
+          }
     }
     .tags {
       display: flex;
