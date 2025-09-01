@@ -6,5 +6,9 @@
     justify-content: space-between;
     color: var(--gray100);
     font-size: 1.6rem;
+    .links {
+      display: flex;
+      gap: 2rem;
+    }
   }
 }
