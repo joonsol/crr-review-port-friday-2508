@@ -1,9 +1,23 @@
 .inner.contact-inner {
   flex-direction: column;
   justify-content: center;
+
+  @media screen and (max-width:1200px) {
+    padding: 10rem 2rem;
+  }
+
+  @media screen and (max-width:768px) {
+
+    padding: 5rem 1rem;
+  }
+
   >h1.tit {
     align-self: flex-start;
     transform: translateX(-20rem);
+
+    @media screen and (max-width:1200px) {
+      transform: translateX(0);
+    }
   }
 
   .contact-wrapper {
@@ -12,8 +26,21 @@
     width: 100%;
     gap: 5rem;
 
+    @media screen and (max-width:1200px) {
+      padding-top: clamp(5rem, 6vw, 10rem);
+    }
+
+    @media screen and (max-width:999px) {
+      flex-direction: column;
+      gap: 3rem;
+    }
+
     .contact-form {
       width: 50%;
+
+      @media screen and (max-width:999px) {
+        width: 100%;
+      }
 
       .form-rows {
         >li {
@@ -24,18 +51,22 @@
 
           label {
             width: 15.8rem;
-            font-size: 1.6rem;
-            font-weight: 300;
+            font-size: clamp(1.2rem, 1.6vw, 1.6rem);
+            font-weight: 600;
             color: var(--gray600);
             text-align: center;
+
           }
+
+
 
           .field {
             flex: 1;
 
             input,
             textarea {
-              font-size: 1.4rem;
+              font-size: clamp(1.2rem, 1.6vw, 1.6rem);
+
               width: 100%;
               border-radius: .3rem;
               padding: .5rem 2rem;
@@ -44,18 +75,39 @@
             }
           }
 
+          @media screen and (max-width:999px) {
+            flex-direction: column;
+            align-items: center;
+
+            label {
+              width: 20%;
+              padding-left: 0;
+            }
+
+            .field {
+              width: 100%;
+
+              input,
+              textarea {
+              }
+            }
+
+          }
+
           &.actions {
             justify-self: flex-end;
 
             .Button {
               display: inline-flex;
-              width: 14.5rem;
-              height: 4rem;
+              // width:  clamp(8rem ,10vw, 14.5rem);
+              // height: clamp(2rem , 2.8vw, 4rem);
               justify-content: center;
               align-items: center;
               border-radius: 10rem;
-              font-size: 1.6rem;
+              font-size: clamp(1rem , 1.4vw, 1.6rem);
               font-weight: 800;
+              padding: .5rem 2rem;
+              
             }
           }
         }
@@ -74,7 +126,10 @@
         flex: 1;
         display: flex;
         align-items: center;
-   
+
+        @media screen and (max-width:999px) {
+          padding: 2rem 1rem;
+        }
 
         // border-radius: .8rem;
         .label {
@@ -86,10 +141,15 @@
           flex: 1;
           text-align: center;
           color: var(--neutral-500);
-          font-size: 1.6rem;
+          font-size: clamp(1.2rem, 1.6vw, 1.6rem);
+
           font-weight: 400;
           // background-color: var(--neutral-200);
           height: 100%;
+
+          @media screen and (max-width:999px) {
+            display: none;
+          }
         }
 
         .content {
@@ -97,10 +157,17 @@
           text-align: left;
           padding-left: 4rem;
 
+          @media screen and (max-width:999px) {
+            padding-left: 0;
+            text-align: center;
+
+          }
+
           .value {
             display: block;
             color: var(--neutral-600);
-            font-size: 1.8rem;
+            font-size: clamp(1.4rem, 1.6vw, 1.8rem);
+
           }
 
           .hint {
@@ -117,6 +184,7 @@
           display: flex;
           gap: 1rem;
 
+
           .chip {
             padding: .4rem 2rem;
             border-radius: 999rem;
@@ -124,6 +192,10 @@
             color: var(--neutral-100);
             display: block;
             font-size: 1.4rem;
+          }
+
+          @media screen and (max-width:999px) {
+            justify-content: center;
           }
         }
 
@@ -137,10 +209,11 @@
 
       li:hover {
         background-color: var(--primary);
-        .label{
-           background-color: var(--neutral-900);
+
+        .label {
+          background-color: var(--neutral-900);
           color: var(--neutral-100);
-         }
+        }
       }
     }
   }

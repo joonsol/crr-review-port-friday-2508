@@ -27,6 +27,7 @@
       @media screen and (max-width:768px) {
 
         flex-direction: column-reverse;
+        border: .1rem solid var(--neutral-200);
       }
 
       >.lst-t-wrap {
