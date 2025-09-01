@@ -2,23 +2,25 @@ import React from 'react'
 import { ThemeProvider, useTheme } from '../contexts/ThemeContext'
 import useSmoothScroll from '../hook/useSmoothScroll'
 import "./styles/Nav.scss"
-const Nav = () => {
+const Nav = ({ open = false, onClose = () => { } }) => {
   const navLink = ['Hero', 'Contact', 'Work', 'Aboutme']
-  const { theme, toggleTheme } = useTheme();
+
 
   const scrollTo = useSmoothScroll()
   return (
-    <nav className='Nav'>
+    <nav className={`Nav ${open ? 'open' : ''}`} aria-label="주요 메뉴">
 
-      <ul>
+      <ul id="primary-menu" role="menu">
         {navLink.map((nav, i) => (
 
-          <li key={i}>
+          <li key={i} role="none">
             <a
+              role="menuitem"
               href={`#${nav}`}
               onClick={(e) => {
                 e.preventDefault()
                 scrollTo(nav)
+                onClose()            // 클릭 후 패널 닫기
               }} >
               {nav}
             </a>
