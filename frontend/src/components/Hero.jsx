@@ -4,7 +4,7 @@ import React from 'react'
 import "./styles/Hero.scss"
 const Hero = () => {
   return (
-    <div className='inner'>
+    <div className='inner hero-inner'>
       <h1 className="tit">
         <span>
           developer

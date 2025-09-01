@@ -1,4 +1,4 @@
-.inner {
+.inner.hero-inner {
   p.txt {
     position: absolute;
     right: 3rem;
@@ -13,6 +13,20 @@
     left: 50%;
     margin-left: -1rem;
       animation: up 1s linear infinite alternate;
+      @media screen and (max-width:768px){
+        font-size: 2rem;
+        
+      }
 
   }
+      @media screen and (max-width:768px){
+         h1.tit span{
+          display: block;
+          .star-spin{
+            position: absolute;
+            right:calc(50% - 5rem);
+            top: calc(50% - 5rem);
+          }
+         }
+      }
 }
