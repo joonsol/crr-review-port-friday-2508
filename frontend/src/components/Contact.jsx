@@ -43,14 +43,18 @@ const Contact = () => {
 
   return (
     <div className='inner contact-inner'>
-      <h1 className="tit">contact me
+      <div data-aos="fade-right" className='t-wrap'>
+
+      <h1 className="tit" >contact me
         <span className="star-spin">
           <i className="star">✱</i>
         </span>
       </h1>
+      </div>
       <div className="contact-wrapper">
 
-        <form className="contact-form" onSubmit={handleSubmit}>
+        <form 
+        className="contact-form" onSubmit={handleSubmit}>
           <ul className="form-rows">
             <li className="row">
               <label htmlFor="name" className="label">
@@ -130,7 +134,9 @@ const Contact = () => {
           </ul>
         </form>
         {/* ContactList.jsx */}
-        <ul className="contact-list">
+        <ul className="contact-list"
+        
+        >
           {contact.basics.map(item => (
             <li key={item.label}>
               <strong className="label">

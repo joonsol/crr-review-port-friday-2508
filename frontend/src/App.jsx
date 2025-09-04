@@ -11,9 +11,16 @@ import "./styles/main.scss";
 import "./styles/_themes.scss"
 import "./styles/common.scss"
 import { ThemeProvider } from "./contexts/ThemeContext";
-
+import { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 function App() {
-
+  useEffect(() => {
+    AOS.init({
+      duration: 800,   // 애니메이션 지속시간 (ms)
+      once: true,      // 스크롤할 때 1번만 실행
+    });
+  }, []);
   return (
     <ThemeProvider>
 
