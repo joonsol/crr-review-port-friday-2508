@@ -7,13 +7,3 @@ export const api = axios.create({
 });
 
 
-// 401 나오면 전역에서 바로 로그인 페이지로
-// api.interceptors.response.use(
-//   (res) => res,
-//   (err) => {
-//     if (err?.response?.status === 401) {
-//       window.location.href = "/admin/login";
-//     }
-//     return Promise.reject(err);
-//   }
-// );
