@@ -1,6 +1,6 @@
 
 import './App.scss'
-import Notfound from './pages/Notfound'
+import NotFound from './pages/NotFound'
 import Home from './pages/Home'
 import { Routes, Route } from 'react-router-dom'
 import AdminLogin from './pages/AdminLogin'
@@ -30,7 +30,7 @@ function App() {
       <Route path="/admin/login" element={<AuthRedirectRoute Component={AdminLogin} />} />
         {/* 보호 페이지: 비인증이면 /admin/login으로 */}
         <Route path="/admin/posts" element={<RequireAuth Component={AdminPost} />} />
-        <Route path='*' element={<Notfound />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </ThemeProvider>
   )
