@@ -5,9 +5,9 @@ const app = express();
 const cors=require("cors")
 const cookieParser = require("cookie-parser");
 dotenv.config();
-const PORT = process.env.PORT || 80; 
+const PORT = process.env.PORT || 3000; 
 
-
+app.set("trust proxy", 1);  
 app.use(cors({
   origin: process.env.FRONT_ORIGIN || 'http://localhost:5173',
   credentials: true,
