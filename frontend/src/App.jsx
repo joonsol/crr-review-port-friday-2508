@@ -1,6 +1,6 @@
 
 import './App.scss'
-import NotFound from './pages/Notfound'
+import NotFound from './pages/NotFound'
 import Home from './pages/Home'
 import { Routes, Route } from 'react-router-dom'
 import AdminLogin from './pages/AdminLogin'
