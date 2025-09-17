@@ -5,7 +5,7 @@ const app = express();
 const cors=require("cors")
 const cookieParser = require("cookie-parser");
 dotenv.config();
-PORT =3000
+PORT =process.env.PORT
 
 
 app.use(cors({
@@ -26,7 +26,7 @@ app.use("/api/auth",userRoutes)
 app.use("/api/contact",contactRoutes)
 
 app.listen(PORT, () => {
-    console.log("Server is running");
+    console.log(`Server is running,${PORT}`);
 })
 
 
